@@ -6,12 +6,12 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.dmm.task.entity.User;
+import com.dmm.task.entity.Users;
 
 public class AccountUserDetails implements UserDetails { // UserDetailsを実装する
-	private User user;
+	private Users user;
 
-	public AccountUserDetails(User user) {
+	public AccountUserDetails(Users user) {
 		this.user = user;
 	}
 
@@ -58,7 +58,7 @@ public class AccountUserDetails implements UserDetails { // UserDetailsを実装
 	}
 
 	// Entityを返す
-	public User getUser() {
+	public Users getUser() {
 		return user;
 	}
 

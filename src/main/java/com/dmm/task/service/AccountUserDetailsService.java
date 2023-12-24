@@ -6,7 +6,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.dmm.task.entity.User;
+import com.dmm.task.entity.Users;
 import com.dmm.task.repository.UserRepository;
 
 @Service // Spring管理Beanであることを指定
@@ -21,7 +21,7 @@ public class AccountUserDetailsService implements UserDetailsService {
 			throw new UsernameNotFoundException("ユーザー名が空です");
 		}
 		// データベースからアカウント情報を取得する
-		User user = repository.findById(userName).get();
+		Users user = repository.findById(userName).get();
 		if (user != null) {
 			// UserDetailsの実装クラスを生成して返す
 			return new AccountUserDetails(user);

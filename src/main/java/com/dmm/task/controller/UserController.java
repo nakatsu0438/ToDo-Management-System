@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import com.dmm.task.entity.User;
+import com.dmm.task.entity.Users;
 import com.dmm.task.repository.UserRepository;
 import com.dmm.task.form.UserForm;
 
@@ -25,7 +25,7 @@ public class UserController {
 	@GetMapping("/users")
 	// 引数にorg.springframework.ui.Modelを追加
 	public String getUsers(Model model) {
-		List<User> users = userRepository.findAll();
+		List<Users> users = userRepository.findAll();
 		// Modelにusersを追加
 		model.addAttribute("users", users);
 		return "users";
@@ -52,7 +52,7 @@ public class UserController {
 		}
 
 		// UserFormの値をUserクラス（Entity）にセットする
-		User user = new User();
+		Users user = new Users();
 		user.setName(userForm.getName());
 		user.setEmail(userForm.getEmail());
 
