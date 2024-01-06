@@ -1,8 +1,13 @@
 package com.dmm.task.entity;
 
+
+
 //import javax.persistence.Column;
 
+
+
 import javax.persistence.Entity;
+
 //import javax.persistence.GeneratedValue;
 //import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -12,8 +17,6 @@ import javax.persistence.Id;
 
 import lombok.Data;
 import lombok.ToString;
-
-//import java.io.Serializable;
 import java.time.LocalDate;
 
 @Data
@@ -23,10 +26,7 @@ public class Tasks {
 	@Id
 	 private Long id;
 	 private String user;
-	 private String title;
+	 private String name;
 	 private boolean done;
 	 private LocalDate date;
-
 }
-
-// ALTER TABLE tasks ADD FOREIGN KEY(user) REFERENCES users(user)
