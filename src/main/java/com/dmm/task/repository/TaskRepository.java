@@ -1,14 +1,11 @@
 package com.dmm.task.repository;
 
-import com.dmm.task.entity.Task;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+
+import com.dmm.task.entity.Tasks;
 
 import java.util.List;
 
-@Repository
-public interface TaskRepository extends JpaRepository<Task, Long> {
-
-
-
+public interface TaskRepository extends JpaRepository<Tasks, String> {
+    List<Tasks> findByUser(String user);
 }
