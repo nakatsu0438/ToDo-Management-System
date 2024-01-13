@@ -6,7 +6,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.dmm.task.entity.Users;
+import com.dmm.task.model.entity.Users;
 import com.dmm.task.repository.UserRepository;
 
 @Service // Spring管理Beanであることを指定

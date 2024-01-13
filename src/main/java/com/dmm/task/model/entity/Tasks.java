@@ -1,4 +1,4 @@
-package com.dmm.task.entity;
+package com.dmm.task.model.entity;
 
 import java.time.LocalDate;
 
@@ -15,16 +15,12 @@ public class Tasks {
     @GeneratedValue
     private Long id;
     
-    @ManyToOne
-    @JoinColumn(name = "user_name")
-    private Users user;
-
-    @Column
+//    @ManyToOne
+//    @JoinColumn(name = "user_name")　リレーションの定義
+//    private Users userName;
+    private String title;
     private String name;
-    
-    @Column
-    private boolean done;
-    
-    @Column
+    private String text;
     private LocalDate date;
+    private boolean done;
 }

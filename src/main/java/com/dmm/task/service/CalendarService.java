@@ -1,37 +1,82 @@
 package com.dmm.task.service;
 
+
+
 import org.springframework.stereotype.Service;
+
+import com.dmm.task.model.entity.Tasks;
+
+import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class CalendarService {
-	
-    // 1.ListのListを用意
-    public List<List<LocalDate>> generateCalendar(LocalDate firstDayOfMonth, LocalDate lastDayOfMonth) {
-    	
-        List<List<LocalDate>> calendar = new ArrayList<>();
-        // 4. 曜日を表すDayOfWeekを取得し、上で取得したLocalDateに曜日の値（DayOfWeek#getValue)をマイナスして前月分のLocalDateを求める
-        LocalDate currentDay = firstDayOfMonth.minusDays(firstDayOfMonth.getDayOfWeek().getValue() - 1);  // 日曜日を1列目に固定
 
-        while (currentDay.isBefore(lastDayOfMonth) || currentDay.isEqual(lastDayOfMonth)) {
-            // 2. 1週間分のLocalDateを格納するListを用意
-            List<LocalDate> week = new ArrayList<>();
-            // 5. 1日ずつ増やしてLocalDateを求めていき、2．で作成したListへ格納していき、1週間分詰めたら1．のリストへ格納する
-            for (int i = 0; i < 7; i++) {
-                week.add(currentDay);
-                // 6. 2週目以降は単純に1日ずつ日を増やしながらLocalDateを求めてListへ格納していき、土曜日になったら1．のリストへ格納して新しいListを生成する（月末を求めるにはLocalDate#lengthOfMonth()を使う）
-                currentDay = currentDay.plusDays(1);
+	// カレンダーを生成するメソッド
+	public List<List<LocalDate>> generateCalendar(LocalDate firstDayOfMonth, LocalDate lastDayOfMonth) {
 
-                // 7. 最終週の翌月分をDayOfWeekの値を使って計算し、6．で生成したリストへ格納し、最後に1．で生成したリストへ格納する。また月の最終日が格納される行以降の行は表示しない
-                if (currentDay.getDayOfMonth() == 1 && i > 0) {
-                    break;
-                }
-            }
-            calendar.add(week);
-        }
+	    // カレンダーを表すListのListを用意
+	    List<List<LocalDate>> calendar = new ArrayList<>();
 
-        return calendar;
+	    // 月の日数を取得
+	    int daysInMonth = lastDayOfMonth.lengthOfMonth();
+
+	    // 月の初日の曜日を取得
+	    DayOfWeek firstDayOfWeek = firstDayOfMonth.getDayOfWeek();
+
+
+	    // 空白部分を考慮して、前月の最終日から月の初日までの日付を逐次的に追加
+	    for (int i = 0; i == firstDayOfWeek.getValue() ; i--) {
+	        List<LocalDate> week = new ArrayList<>();
+	        for (int j = 0; j < 7; j++) {
+	            // 前月の日付を逐次的に追加
+	            week.add(firstDayOfMonth.minusDays(firstDayOfWeek.getValue() - 1 - i + j));
+	        }
+	        // 前月の最終日から月の初日までの日付が追加された週をカレンダーに追加
+	        calendar.add(week);
+	    }
+
+	    // 月の初日から最終日までの日付を逐次的に追加
+	    int dayCount = 1;
+	    for (int i = 0; i < 6; i++) {
+	        List<LocalDate> week = new ArrayList<>();
+	        for (int j = 0; j < 7; j++) {
+	            if (dayCount <= daysInMonth) {
+	                // 月の初日から最終日までの日付を逐次的に追加
+	                week.add(firstDayOfMonth.plusDays(dayCount - 1));
+	                dayCount++;
+	            } else {
+	                // 翌月の日付を逐次的に追加
+	                week.add(firstDayOfMonth.plusDays(dayCount - 1 - daysInMonth));
+	                dayCount++;
+	            }
+	        }
+	        // 月の初日から最終日までの日付が追加された週をカレンダーに追加
+	        calendar.add(week);
+
+	        boolean containsLastDayOfMonth = calendar.stream()
+	                .flatMap(List::stream)
+	                .anyMatch(date -> date.getDayOfMonth() == lastDayOfMonth.getDayOfMonth());
+
+	        if (containsLastDayOfMonth) {
+	            break;
+	        }
+
+	    }
+
+	    // 生成されたカレンダーを返す
+	    return calendar;
+	}
+
+
+    // 西暦と月を表示するメソッド
+    public String displayYearAndMonth(LocalDate date) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy年M月");
+        return date.format(formatter);
     }
 }

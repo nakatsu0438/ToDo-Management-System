@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import com.dmm.task.entity.Tasks;
+import com.dmm.task.model.entity.Tasks;
 
 import java.time.LocalDate;
 import java.util.List;

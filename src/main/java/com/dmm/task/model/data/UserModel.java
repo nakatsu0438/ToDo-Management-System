@@ -1,10 +1,9 @@
-package com.dmm.task.form;
+package com.dmm.task.model.data;
 
 import lombok.Data;
 
 @Data
-public class UserForm {
-
+public class UserModel {
 	public String userName;
 	public String password;
 	public String name;

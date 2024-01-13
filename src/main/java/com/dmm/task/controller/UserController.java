@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import com.dmm.task.entity.Users;
 import com.dmm.task.repository.UserRepository;
 import com.dmm.task.form.UserForm;
+import com.dmm.task.model.entity.Users;
 
 @Controller
 public class UserController {
@@ -53,8 +53,8 @@ public class UserController {
 
 		// UserFormの値をUserクラス（Entity）にセットする
 		Users user = new Users();
-		user.setName(userForm.getName());
-		user.setEmail(userForm.getEmail());
+		user.setUserName(userForm.getUserName());
+		user.setPassword(userForm.getPassword());
 
 		// データベースに保存
 		userRepository.save(user);
