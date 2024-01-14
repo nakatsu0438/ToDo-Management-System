@@ -4,6 +4,8 @@ import java.time.LocalDate;
 
 import javax.persistence.*;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import lombok.Data;
 import lombok.ToString;
 
@@ -12,7 +14,8 @@ import lombok.ToString;
 @ToString
 public class Tasks {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "tasks_sequence_generator")
+    @SequenceGenerator(name = "tasks_sequence_generator", sequenceName = "tasks_sequence", allocationSize = 1)
     private Long id;
     
 //    @ManyToOne
@@ -21,6 +24,7 @@ public class Tasks {
     private String title;
     private String name;
     private String text;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate date;
     private boolean done;
 }

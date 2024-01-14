@@ -23,18 +23,19 @@ public class CreateController {
     // カレンダーの日付をクリックしたときの詳細画面
     @GetMapping("/main/create/{selectedDate}")
     public String showTaskDetails(@PathVariable String selectedDate, Model model) {
+    	
     	// フォームの初期化
     	// 選択された日付をLocalDateに変換
     	LocalDate selectedLocalDate = LocalDate.parse(selectedDate);
     	
-    	model.addAttribute("task", new Tasks());
-    	model.addAttribute("task", selectedLocalDate);
+    	model.addAttribute("tasks", new Tasks());
+    	model.addAttribute("tasks", selectedLocalDate);
     	return "create";
     }
 
-    
-    @PostMapping("/main")
-    public String createTask(@ModelAttribute("task") Tasks taskForm) {
+    @PostMapping("/main/create")
+    public String createTask(@ModelAttribute("tasks") Tasks taskForm) {
+    	
         // フォームから受け取ったデータを保存
         taskService.saveTask(taskForm);
 

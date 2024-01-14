@@ -37,14 +37,10 @@ public class MainController {
         // タスクを取得
         Map<LocalDate, List<Tasks>> tasks = taskService.getTasks(firstDayOfMonth, lastDayOfMonth);
        
-
         // mainテンプレートに渡すデータを設定
         model.addAttribute("month", calendarService.displayYearAndMonth(firstDayOfMonth));
         model.addAttribute("matrix", calendar);
         model.addAttribute("tasks", tasks);
-
-        model.addAttribute("prev", firstDayOfMonth.minusMonths(1));
-        model.addAttribute("next", firstDayOfMonth.plusMonths(1));
         
         // 遷移先のテンプレート名を返す
         return "main";

@@ -30,7 +30,7 @@ public class CalendarService {
 	    DayOfWeek firstDayOfWeek = firstDayOfMonth.getDayOfWeek();
 
 
-	    // 空白部分を考慮して、前月の最終日から月の初日までの日付を逐次的に追加
+	    // 前月の最終日から月の初日までの日付を逐次的に追加
 	    for (int i = 0; i == firstDayOfWeek.getValue() ; i--) {
 	        List<LocalDate> week = new ArrayList<>();
 	        for (int j = 0; j < 7; j++) {
@@ -41,17 +41,16 @@ public class CalendarService {
 	        calendar.add(week);
 	    }
 
-	    // 月の初日から最終日までの日付を逐次的に追加
+	    // 月の初日から最終日までの日付を追加
 	    int dayCount = 1;
 	    for (int i = 0; i < 6; i++) {
 	        List<LocalDate> week = new ArrayList<>();
 	        for (int j = 0; j < 7; j++) {
 	            if (dayCount <= daysInMonth) {
-	                // 月の初日から最終日までの日付を逐次的に追加
 	                week.add(firstDayOfMonth.plusDays(dayCount - 1));
 	                dayCount++;
 	            } else {
-	                // 翌月の日付を逐次的に追加
+	                // 翌月の日付を追加
 	                week.add(firstDayOfMonth.plusDays(dayCount - 1 - daysInMonth));
 	                dayCount++;
 	            }
