@@ -14,10 +14,9 @@ import lombok.ToString;
 @ToString
 public class Tasks {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "tasks_sequence_generator")
-    @SequenceGenerator(name = "tasks_sequence_generator", sequenceName = "tasks_sequence", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
+
 //    @ManyToOne
 //    @JoinColumn(name = "user_name")　リレーションの定義
 //    private Users userName;
