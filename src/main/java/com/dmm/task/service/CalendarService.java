@@ -33,7 +33,6 @@ public class CalendarService {
 	        week.add(firstDayOfMonth);
 	        firstDayOfMonth = firstDayOfMonth.plusDays(1);
 	    }
-
 	    calendar.add(week);
 
 	    int dayCount = 1;
