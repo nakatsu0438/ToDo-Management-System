@@ -29,9 +29,11 @@ public class TaskService {
 		
 		List<Tasks> tasksList;
 
-	    if ("admin".equals(user.getName())) {
+	    if ("admin-name".equals(user.getName())) {
 	        // adminユーザーの場合は全てのタスクを取得
-	        tasksList = taskRepository.findAll (
+	        tasksList = taskRepository.findAllByDateBetween (
+	        		firstDayOfMonth.atStartOfDay().toLocalDate(),
+	                lastDayOfMonth.atTime(23, 59, 59).toLocalDate()
 	        );
 	    } else {
 	        // 通常のユーザーの場合はユーザー名を条件にしてタスクを取得
@@ -45,8 +47,8 @@ public class TaskService {
 		return tasksList.stream()
 				.collect(Collectors.groupingBy(Tasks::getDate, Collectors.toList()));
 	}
-		
-	
+
+
 	// createコントローラー
 	public Tasks taskCreate(@AuthenticationPrincipal AccountUserDetails user, Tasks tasksForm) {
 	
@@ -62,8 +64,8 @@ public class TaskService {
 		
 		return tasks;
 	}
-	
-	
+
+
 	// editコントローラー
 	public Tasks getTaskById(Long id) {
 		
@@ -73,7 +75,7 @@ public class TaskService {
 		return tasks;
 		
 	}
-	
+
 	public Tasks taskUpDate(@AuthenticationPrincipal AccountUserDetails user, Long id, Tasks tasksForm) {
 
 	    // タスクIDを使用して既存のタスクを取得
@@ -91,7 +93,7 @@ public class TaskService {
 	    	// 更新を保存
 	    	taskRepository.save(taskUpDate);
 	    }
-
+	    
 	    return taskUpDate;
 	}
 

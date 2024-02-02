@@ -14,7 +14,7 @@ public class CalendarService {
     // カレンダーを生成するメソッド
     public List<List<LocalDate>> generateCalendar(LocalDate firstDayOfMonth, LocalDate lastDayOfMonth) {
 
-        // カレンダーを表すListのListを用意
+        // カレンダーを表現するListのListを用意
         List<List<LocalDate>> calendar = new ArrayList<>();
 
         // 月の日数を取得
@@ -50,12 +50,14 @@ public class CalendarService {
                 }
             }
             // 月の初日から最終日までの日付が追加された週をカレンダーに追加
-            calendar.add(week);
+	        calendar.add(week);
+	        boolean containsLastDayOfMonth = calendar.stream()
+	                .flatMap(List::stream)
+	                .anyMatch(date -> date.getDayOfMonth() == lastDayOfMonth.getDayOfMonth());
+	        if (containsLastDayOfMonth) {
+	            break;
+	        }
 
-            // 日数が月の最終日に達したらループを終了
-            if (dayCount > daysInMonth) {
-                break;
-            }
         }
 
         // 生成されたカレンダーを返す

@@ -1,8 +1,8 @@
 package com.dmm.task.controller;
 
 import com.dmm.task.model.entity.Tasks;
-import com.dmm.task.repository.TaskRepository;
 import com.dmm.task.service.AccountUserDetails;
+import com.dmm.task.service.TaskService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -17,9 +17,9 @@ import java.time.LocalDate;
 public class CreateController {
 
     @Autowired
-    private TaskRepository taskRepository;
+    private TaskService taskService;
     
-    // カレンダーの日付をクリックしたときの詳細画面
+    // カレンダー上の日付をクリックした際に登録画面を表示
     @GetMapping("/main/create/{selectedDate}")
     public String showTaskDetails(@PathVariable String selectedDate, Model model) {
     	
@@ -32,26 +32,13 @@ public class CreateController {
     }
 
     @PostMapping("/main/create") // @AuthenticationPrincipalでAccountUserDetailsからユーザー情報を取得
-    public String createTask(Tasks tasksForm, @AuthenticationPrincipal AccountUserDetails user) {
-    	
-    	Tasks tasks = new Tasks();
-    	tasks.setTitle(tasksForm.getTitle()); 
-    	tasks.setName(user.getName()); // tasksFormではなくuserであることに注意
-    	tasks.setText(tasksForm.getText());   
-    	tasks.setDate(tasksForm.getDate());
-    	tasks.setDone(tasksForm.isDone());
-        
-        // 確認用
-        System.out.println("Title: " + tasksForm.getTitle());
-        System.out.println("Name: " + tasksForm.getName());
-        System.out.println("Text: " + tasksForm.getText());
-        System.out.println("Date: " + tasksForm.getDate());
-        System.out.println("Tasks Object: " + tasks);
-        
-        // フォームから受け取ったデータを保存
-        taskRepository.save(tasks);
+    public String createTask(@AuthenticationPrincipal AccountUserDetails user, Tasks tasksForm) {
 
-        return "redirect:/main";  // mainにリダイレクト
+    	// TaskServiceクラス内で定義さた（TaskServiceクラス型）のtaskCreateメソッドを使用してタスクを登録
+    	taskService.taskCreate(user, tasksForm);
+
+    	// mainテンプレートにリダイレクト
+        return "redirect:/main";
     }
 
 
