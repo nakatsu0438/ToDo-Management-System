@@ -9,7 +9,10 @@ import java.util.List;
 @Service
 public class CalendarService {
     // カレンダーを生成するメソッド
-    public List<List<LocalDate>> generateCalendar(LocalDate firstDayOfMonth, LocalDate lastDayOfMonth, @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
+    public List<List<LocalDate>> generateCalendar(
+    		LocalDate firstDayOfMonth,
+    		LocalDate lastDayOfMonth,
+    		@DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date ) {
 
     	// 週と日を格納する二次元のListを用意する
         List<List<LocalDate>> month = new ArrayList<>();
@@ -19,9 +22,17 @@ public class CalendarService {
 
         // 日にちを格納する変数を用意する
         LocalDate day;
+        
+        if(date == null) {  // 引数で渡ってきた dateが nullであれば、今月と判断する
+          // その月の1日のLocalDateを取得する
+          day = LocalDate.now();
+          day = LocalDate.of(day.getYear(), day.getMonthValue(), 1);
+        }else {
+          // nullでなければ、前月 or 翌月（の1日）が渡ってきているので、そのまま使う
+          day = date;
+        }
+        System.out.println("day : " + day);
 
-        // その月の1日を取得する
-        day = LocalDate.now();  // 現在日時を取得
         day = LocalDate.of(day.getYear(), day.getMonthValue(), 1);  // 現在日時からその月の1日を取得
 
         // 前月分の LocalDateを求める
