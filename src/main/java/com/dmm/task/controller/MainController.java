@@ -7,6 +7,7 @@ import java.util.Map;
 //import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,13 +29,23 @@ public class MainController {
     private TaskService taskService;
 
     @GetMapping("/main")
-    public String showCalendar(Model model, @AuthenticationPrincipal AccountUserDetails user) {
+    public String showCalendar(
+    		Model model, 
+    		@AuthenticationPrincipal AccountUserDetails user,
+    		@DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date ) {
     	
+        // 日付がnullの場合は現在の日付を使用
+        if (date == null) {
+            date = LocalDate.now();
+            
+            System.out.println("date : " + date);
+        }
         // その月の初日を取得
-        LocalDate firstDayOfMonth = LocalDate.now().withDayOfMonth(1);
+        LocalDate firstDayOfMonth = date.withDayOfMonth(1);
         System.out.println("firstDayOfMonth : " + firstDayOfMonth);
+        
         // 月の最終日を取得
-        LocalDate lastDayOfMonth = LocalDate.now().withDayOfMonth(LocalDate.now().lengthOfMonth());
+        LocalDate lastDayOfMonth = date.withDayOfMonth(date.lengthOfMonth());
         System.out.println("lastDayOfMonth : " + lastDayOfMonth);
         
         // 前月と次月の日付を計算
@@ -45,9 +56,11 @@ public class MainController {
         
         // カレンダーを生成
         List<List<LocalDate>> calendar = calendarService.generateCalendar(firstDayOfMonth, lastDayOfMonth);
+        System.out.println("calendar : " + calendar);
         
         // TaskServiceからタスクを取得
         Map<LocalDate, List<Tasks>> tasks = taskService.getTasks(user);
+        System.out.println("tasks : " + tasks);
 
         // mainテンプレートに渡すデータを設定
         model.addAttribute("prev", prev);
@@ -55,7 +68,6 @@ public class MainController {
         model.addAttribute("month", calendarService.displayYearAndMonth(firstDayOfMonth));
         model.addAttribute("matrix", calendar);
         model.addAttribute("tasks", tasks);
-        
         
         // 遷移先のテンプレート名を返す
         return "main";
