@@ -27,7 +27,7 @@ public class CreateController {
     	LocalDate selectedLocalDate = LocalDate.parse(selectedDate);
     	
     	model.addAttribute("tasks", new Tasks());
-    	model.addAttribute("tasks", selectedLocalDate);
+    	model.addAttribute("date", selectedLocalDate);
     	return "create";
     }
 
