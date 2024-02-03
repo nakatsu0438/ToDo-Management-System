@@ -32,9 +32,16 @@ public class MainController {
     	
         // その月の初日を取得
         LocalDate firstDayOfMonth = LocalDate.now().withDayOfMonth(1);
-        
+        System.out.println("firstDayOfMonth : " + firstDayOfMonth);
         // 月の最終日を取得
         LocalDate lastDayOfMonth = LocalDate.now().withDayOfMonth(LocalDate.now().lengthOfMonth());
+        System.out.println("lastDayOfMonth : " + lastDayOfMonth);
+        
+        // 前月と次月の日付を計算
+        LocalDate prev = firstDayOfMonth.minusMonths(1);
+        System.out.println("prev : " + prev);
+        LocalDate next = firstDayOfMonth.plusMonths(1);
+        System.out.println("next : " + next);
         
         // カレンダーを生成
         List<List<LocalDate>> calendar = calendarService.generateCalendar(firstDayOfMonth, lastDayOfMonth);
@@ -43,6 +50,8 @@ public class MainController {
         Map<LocalDate, List<Tasks>> tasks = taskService.getTasks(user);
 
         // mainテンプレートに渡すデータを設定
+        model.addAttribute("prev", prev);
+        model.addAttribute("next", next);
         model.addAttribute("month", calendarService.displayYearAndMonth(firstDayOfMonth));
         model.addAttribute("matrix", calendar);
         model.addAttribute("tasks", tasks);
