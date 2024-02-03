@@ -61,7 +61,7 @@ public class MainController {
         List<List<LocalDate>> calendar = calendarService.generateCalendar(firstDayOfMonth, lastDayOfMonth, date);
         
         // TaskServiceからタスクを取得
-        Map<LocalDate, List<Tasks>> tasks = taskService.getTasks(user);
+        Map<LocalDate, List<Tasks>> tasks = taskService.getTasks(user, date);
 
         // mainテンプレートに渡すデータを設定
         model.addAttribute("prev", prev);

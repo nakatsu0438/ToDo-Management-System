@@ -1,6 +1,7 @@
 package com.dmm.task.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Service;
 
@@ -20,12 +21,21 @@ public class TaskService {
 
     
     // mainコントローラー
-	public Map<LocalDate, List<Tasks>> getTasks(@AuthenticationPrincipal AccountUserDetails user) {
+	public Map<LocalDate, List<Tasks>> getTasks(
+			@AuthenticationPrincipal AccountUserDetails user,
+			@DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date ) {
 		
-		// 現在の月の初日のLocalDateを取得する
-		LocalDate firstDayOfMonth = LocalDate.now().withDayOfMonth(1);
-		// 月の最終日を取得
-		LocalDate lastDayOfMonth = LocalDate.now().withDayOfMonth(LocalDate.now().lengthOfMonth());
+		// 日付がnullの場合は現在の日付を使用
+		if (date == null) {
+		    date = LocalDate.now();
+		}
+
+		// 該当月の初日を取得
+		LocalDate firstDayOfMonth = date.withDayOfMonth(1);
+
+		// 該当月の最終日を取得
+		LocalDate lastDayOfMonth = date.withDayOfMonth(date.lengthOfMonth());
+
 		
 		List<Tasks> tasksList;
 
