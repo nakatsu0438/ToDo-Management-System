@@ -37,21 +37,22 @@ public class MainController {
         // 日付がnullの場合は現在の日付を使用
         if (date == null) {
             date = LocalDate.now();
-            
             System.out.println("date : " + date);
         }
         // その月の初日を取得
         LocalDate firstDayOfMonth = date.withDayOfMonth(1);
-        System.out.println("firstDayOfMonth : " + firstDayOfMonth);
         
         // 月の最終日を取得
         LocalDate lastDayOfMonth = date.withDayOfMonth(date.lengthOfMonth());
-        System.out.println("lastDayOfMonth : " + lastDayOfMonth);
         
         // 前月と次月の日付を計算
         LocalDate prev = firstDayOfMonth.minusMonths(1);
-        System.out.println("prev : " + prev);
         LocalDate next = firstDayOfMonth.plusMonths(1);
+        
+        // 確認用コンソール
+        System.out.println("lastDayOfMonth : " + lastDayOfMonth);
+        System.out.println("firstDayOfMonth : " + firstDayOfMonth);
+        System.out.println("prev : " + prev);
         System.out.println("next : " + next);
         
         // カレンダーを生成
