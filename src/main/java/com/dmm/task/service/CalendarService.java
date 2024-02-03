@@ -44,10 +44,11 @@ public class CalendarService {
           day = day.plusDays(1);  // 1日進める
         }    
         month.add(week);  // 1週目のリストを、月のリストへ格納する
+        System.out.println("dayの値 : " + day);
 
         week = new ArrayList<>();  // 次週のリストを新しくつくる
 
-     // 2週目（2週目から月末まで）
+        // 2週目（2週目から月末まで）
         int leftOfMonth = day.lengthOfMonth() - day.getDayOfMonth();    // ①1週目の当月分
         leftOfMonth = day.lengthOfMonth() - leftOfMonth;    // ②当月の全日数から①を引く
         leftOfMonth = 7 - leftOfMonth;    // ③int i = 7を考慮した追加日数

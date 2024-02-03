@@ -19,44 +19,58 @@ public class TaskService {
     @Autowired
     private TaskRepository taskRepository;
 
-    
-    // mainコントローラー
-	public Map<LocalDate, List<Tasks>> getTasks(
-			@AuthenticationPrincipal AccountUserDetails user,
-			@DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date ) {
-		
-		// 日付がnullの場合は現在の日付を使用
-		if (date == null) {
-		    date = LocalDate.now();
-		}
+ // mainコントローラー
+    public Map<LocalDate, List<Tasks>> getTasks(
+            @AuthenticationPrincipal AccountUserDetails user,
+            @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
 
-		// 該当月の初日を取得
-		LocalDate firstDayOfMonth = date.withDayOfMonth(1);
+        // 日付がnullの場合は現在の日付を使用
+        if (date == null) {
+            date = LocalDate.now();
+        }
 
-		// 該当月の最終日を取得
-		LocalDate lastDayOfMonth = date.withDayOfMonth(date.lengthOfMonth());
+        // 該当月の初日を取得
+        LocalDate firstDayOfMonth = date.withDayOfMonth(1);
 
-		
-		List<Tasks> tasksList;
+        // 該当月の最終日を取得
+        LocalDate lastDayOfMonth = date.withDayOfMonth(date.lengthOfMonth());
 
-	    if ("admin-name".equals(user.getName())) {
-	        // adminユーザーの場合は全てのタスクを取得
-	        tasksList = taskRepository.findAllByDateBetween (
-	        		firstDayOfMonth.atStartOfDay().toLocalDate(),
-	                lastDayOfMonth.atTime(23, 59, 59).toLocalDate()
-	        );
-	    } else {
-	        // 通常のユーザーの場合はユーザー名を条件にしてタスクを取得
-	        tasksList = taskRepository.findByDateBetween(
-	                firstDayOfMonth.atStartOfDay().toLocalDate(),
-	                lastDayOfMonth.atTime(23, 59, 59).toLocalDate(),
-	                user.getName()
-	        );
-	    }
-		
-		return tasksList.stream()
-				.collect(Collectors.groupingBy(Tasks::getDate, Collectors.toList()));
-	}
+        // 前月の初日を取得
+        LocalDate firstDayOfPreviousMonth = firstDayOfMonth.minusMonths(1);
+
+        // 前月の最終日を取得
+        LocalDate lastDayOfPreviousMonth = firstDayOfMonth.minusDays(1);
+
+        // 翌月の初日を取得
+        LocalDate firstDayOfNextMonth = lastDayOfMonth.plusDays(1);
+
+        // 翌月の最終日を取得
+        LocalDate lastDayOfNextMonth = lastDayOfMonth.plusMonths(1);
+
+        // タスクを取得する範囲を決定
+        LocalDate startDate = firstDayOfPreviousMonth;
+        LocalDate endDate = lastDayOfNextMonth;
+
+        // タスクを取得
+        List<Tasks> tasksList;
+        if ("admin-name".equals(user.getName())) {
+            tasksList = taskRepository.findAllByDateBetween(
+                    startDate.atStartOfDay().toLocalDate(),
+                    endDate.atTime(23, 59, 59).toLocalDate()
+            );
+        } else {
+            tasksList = taskRepository.findByDateBetween(
+                    startDate.atStartOfDay().toLocalDate(),
+                    endDate.atTime(23, 59, 59).toLocalDate(),
+                    user.getName()
+            );
+        }
+
+        // タスクを日付ごとにグループ化して返す
+        return tasksList.stream()
+                .collect(Collectors.groupingBy(Tasks::getDate, Collectors.toList()));
+    }
+
 
 
 	// createコントローラー
