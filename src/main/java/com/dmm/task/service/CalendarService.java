@@ -41,7 +41,7 @@ public class CalendarService {
         // 1週目（1日ずつ増やして 週のリストに格納していく）
         for(int i = 1; i <= 7; i++) {
           week.add(day);  // 週のリストへ格納
-          day = day.plusDays(1);  // 1日進める
+          day = day.plusDays(1);  // 1日進めるa
         }    
         month.add(week);  // 1週目のリストを、月のリストへ格納する
         System.out.println("dayの値 : " + day);

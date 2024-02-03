@@ -39,10 +39,10 @@ public class TaskService {
         LocalDate firstDayOfPreviousMonth = firstDayOfMonth.minusMonths(1);
 
         // 前月の最終日を取得
-        LocalDate lastDayOfPreviousMonth = firstDayOfMonth.minusDays(1);
+//        LocalDate lastDayOfPreviousMonth = firstDayOfMonth.minusDays(1);
 
         // 翌月の初日を取得
-        LocalDate firstDayOfNextMonth = lastDayOfMonth.plusDays(1);
+//        LocalDate firstDayOfNextMonth = lastDayOfMonth.plusDays(1);
 
         // 翌月の最終日を取得
         LocalDate lastDayOfNextMonth = lastDayOfMonth.plusMonths(1);
