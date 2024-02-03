@@ -30,7 +30,7 @@ public class MainController {
 
     @GetMapping("/main")
     public String showCalendar(
-    		Model model, 
+    		Model model,
     		@AuthenticationPrincipal AccountUserDetails user,
     		@DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date ) {
     	
@@ -48,20 +48,20 @@ public class MainController {
         // 前月と次月の日付を計算
         LocalDate prev = firstDayOfMonth.minusMonths(1);
         LocalDate next = firstDayOfMonth.plusMonths(1);
-        
-        // 確認用コンソール
-        System.out.println("lastDayOfMonth : " + lastDayOfMonth);
-        System.out.println("firstDayOfMonth : " + firstDayOfMonth);
-        System.out.println("prev : " + prev);
-        System.out.println("next : " + next);
+
+        //         確認用コンソール
+//        System.out.println("lastDayOfMonth : " + lastDayOfMonth);
+//        System.out.println("firstDayOfMonth : " + firstDayOfMonth);
+//        System.out.println("prev : " + prev);
+//        System.out.println("next : " + next);
+//        System.out.println("calendar : " + calendar);
+//        System.out.println("tasks : " + tasks);
         
         // カレンダーを生成
         List<List<LocalDate>> calendar = calendarService.generateCalendar(firstDayOfMonth, lastDayOfMonth, date);
-        System.out.println("calendar : " + calendar);
         
         // TaskServiceからタスクを取得
         Map<LocalDate, List<Tasks>> tasks = taskService.getTasks(user);
-        System.out.println("tasks : " + tasks);
 
         // mainテンプレートに渡すデータを設定
         model.addAttribute("prev", prev);

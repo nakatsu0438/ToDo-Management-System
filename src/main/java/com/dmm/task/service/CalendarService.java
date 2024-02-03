@@ -47,7 +47,7 @@ public class CalendarService {
 
         week = new ArrayList<>();  // 次週のリストを新しくつくる
 
-        // 2週目（2週目から月末まで）
+     // 2週目（2週目から月末まで）
         int leftOfMonth = day.lengthOfMonth() - day.getDayOfMonth();    // ①1週目の当月分
         leftOfMonth = day.lengthOfMonth() - leftOfMonth;    // ②当月の全日数から①を引く
         leftOfMonth = 7 - leftOfMonth;    // ③int i = 7を考慮した追加日数
@@ -61,22 +61,20 @@ public class CalendarService {
             }
             
             day = day.plusDays(1);
-            System.out.println(day);
+            System.out.println(day);    // [DEBUG] ここで当月の末日が出力されること
         }
 
         // 最終週の翌月分
         w = day.getDayOfWeek();
         int remainingDays = 7 - w.getValue(); // 最終週の残りの日数
-        if(w == DayOfWeek.SUNDAY){
-        	month.add(week);   // 月に週を追加
-        	week = new ArrayList<>();  // 新しい週のListを作成
+        if(remainingDays == 0) {  // 0の場合はもう1週分★
+        	remainingDays = 7;
         }
-        for(int i = 1; i <= remainingDays; i++) {
+        for(int n = 1; n <= remainingDays; n++) {
             week.add(day);
             day = day.plusDays(1);
         }
-        month.add(week); // 最終週のリストを、月のリストへ格納する
-
+        month.add(week);
 
         // 生成されたカレンダーを返す
         return month;
