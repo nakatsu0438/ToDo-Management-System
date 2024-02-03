@@ -56,7 +56,7 @@ public class MainController {
         System.out.println("next : " + next);
         
         // カレンダーを生成
-        List<List<LocalDate>> calendar = calendarService.generateCalendar(firstDayOfMonth, lastDayOfMonth);
+        List<List<LocalDate>> calendar = calendarService.generateCalendar(firstDayOfMonth, lastDayOfMonth, date);
         System.out.println("calendar : " + calendar);
         
         // TaskServiceからタスクを取得

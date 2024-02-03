@@ -1,4 +1,5 @@
 package com.dmm.task.service;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Service;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -8,7 +9,7 @@ import java.util.List;
 @Service
 public class CalendarService {
     // カレンダーを生成するメソッド
-    public List<List<LocalDate>> generateCalendar(LocalDate firstDayOfMonth, LocalDate lastDayOfMonth) {
+    public List<List<LocalDate>> generateCalendar(LocalDate firstDayOfMonth, LocalDate lastDayOfMonth, @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
 
     	// 週と日を格納する二次元のListを用意する
         List<List<LocalDate>> month = new ArrayList<>();
